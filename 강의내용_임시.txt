@@ -1,0 +1,49 @@
+<OpenCV>
+
+1. 보통 영상의 크기는 가로*세로 나타내지만, 영상처리에서는 영상을 행렬의 구조로 표현하고,
+   이때 행렬의 형식은 세로*가로 반대로 나타냄!
+
+2. 그레이스케일 0~255 사이의 정수값을 가짐
+
+3. C/C++ 에선 unsigned char로 표현(1byte)
+
+	typedef unsigned char uchar; //opencv
+
+   그렇다면 Python에선, numpy.unit8
+
+4. openCV는 컴퓨터 코어를 병렬(Parallel)로 모두 처리하는 구조이다.
+
+5. vsCode 상에서 torch나 이러한 모듈에 에러가 뜨는 경우,
+
+	ctrl+shift+P -> "Preferences: Open Settings(JSON) 에서,
+			"python.linting.pylintArgs": ["--generated-members=torch.*"]
+				위와 같은 문장 추가!
+
+6. python-opencv도 결국은 C/C++로 제작된 것은 wrapping 했을 뿐이어서, 속도는 빠르다.
+
+7. opencv에서 불러오는 영상의 채널 순서는 RGB가 아닌, BGR 순서로 작성된다.
+
+   그래서 보통 jupyterNotebook에서 사용하는 matplotlib는 RGB 순서로 읽기 때문에,
+   이때는 cv2.cvtColor()함수를 이용해서 BGR 순서를 RGB 순서로 바꿔준다.
+
+	-> cv2.cvtColor(img_BGR, cv2.COLOR_BGR2RGB) // 특정 flag 사용!
+
+8. 참고, 파이썬 round() 소수점 반올림 function
+
+9. 명함 검출/인식
+
+	1) color 영상을 -> 이진화 영상
+
+	2) 가장 큰 사각형의 형태를 찾음(영상에서 명함이 가장크다는 조건 하에)
+
+
+	# 영상의 이진화(Binarization)란?
+	 -> 영상의 픽셀 값을 0(검정) 또는 1(255, 흰색) 만드는 연산
+	    배경 vs 객체 / 관심 영역 vs 비관심 영역
+
+	그럼 왜 사용? color 정보가 필요없다고 생각될때는 이진화를 적용!
+	실제로도, LG g5 폰을 개발하신 분의 말씀은 스마트폰에서 얼굴을 검출하는
+	경우에도 이진화를 한뒤 검출을 한다고 함.
+
+	opencv에서 이진화 flag는 그냥 일반적인 이진화 형태인 cv2.THRESH_BINARY와
+	이진화 상태에서 반전(Inverse) 상태인 cv2.THRESH_BINARY_INV 형태이다.
